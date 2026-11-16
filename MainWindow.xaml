@@ -1,0 +1,83 @@
+<Window x:Class="SchoolDatabaseDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SchoolDatabaseDemo" Height="600" Width="900"
+        Loaded="Window_Loaded">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- база -->
+            <RowDefinition Height="Auto"/>  <!-- полета -->
+            <RowDefinition Height="Auto"/>  <!-- бутони -->
+            <RowDefinition Height="Auto"/>  <!-- търсене и брой -->
+            <RowDefinition Height="*"/>     <!-- DataGrid -->
+            <RowDefinition Height="Auto"/>  <!-- статус -->
+        </Grid.RowDefinitions>
+
+        <!-- Урок 11: създаване и проверка на базата -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Създай база" Width="120" Margin="0,0,8,0"
+                    Click="CreateDatabaseButton_Click"/>
+            <Button Content="Провери база" Width="120"
+                    Click="CheckDatabaseButton_Click"/>
+        </StackPanel>
+
+        <!-- Полета за ученик -->
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Име:" VerticalAlignment="Center" Margin="0,0,6,6"/>
+            <TextBox   Grid.Row="0" Grid.Column="1" x:Name="NameBox" Margin="0,0,12,6"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Клас:" VerticalAlignment="Center" Margin="0,0,6,6"/>
+            <TextBox   Grid.Row="0" Grid.Column="3" x:Name="ClassBox" Margin="0,0,0,6"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Успех:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+            <TextBox   Grid.Row="1" Grid.Column="1" x:Name="GradeBox" Margin="0,0,12,0"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="Email:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+            <TextBox   Grid.Row="1" Grid.Column="3" x:Name="EmailBox"/>
+        </Grid>
+
+        <!-- CRUD бутони -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Добави" Width="100" Margin="0,0,8,0" Click="AddButton_Click"/>
+            <Button x:Name="UpdateButton" Content="Обнови" Width="100" Margin="0,0,8,0"
+                    Click="UpdateButton_Click" IsEnabled="False"/>
+            <Button x:Name="DeleteButton" Content="Изтрий" Width="100" Margin="0,0,8,0"
+                    Click="DeleteButton_Click" IsEnabled="False"/>
+            <Button Content="Изчисти полетата" Width="130" Click="ClearButton_Click"/>
+        </StackPanel>
+
+        <!-- Търсене по име и брой записи -->
+        <DockPanel Grid.Row="3" Margin="0,0,0,8">
+            <TextBlock x:Name="CountTextBlock" DockPanel.Dock="Right"
+                       VerticalAlignment="Center" Margin="12,0,0,0" FontWeight="Bold"/>
+            <TextBlock Text="Търсене по име:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+            <TextBox x:Name="SearchBox" TextChanged="SearchBox_TextChanged"/>
+        </DockPanel>
+
+        <DataGrid Grid.Row="4" x:Name="StudentsGrid"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  SelectionMode="Single" CanUserAddRows="False"
+                  SelectionChanged="StudentsGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Име" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Клас" Binding="{Binding ClassName}" Width="80"/>
+                <DataGridTextColumn Header="Успех" Binding="{Binding AverageGrade, StringFormat=F2}" Width="80"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Grid.Row="5" x:Name="StatusTextBlock" Margin="0,8,0,0" TextWrapping="Wrap"/>
+    </Grid>
+</Window>
